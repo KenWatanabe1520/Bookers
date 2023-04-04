@@ -1,0 +1,49 @@
+<div class="notice-box">
+    <%= flash[:notice] %>
+</div>
+
+<h1 class="page-title">Books</h1>
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Body</th>
+      </tr>
+    </thead>
+    <% @books.each do |abook| %>
+    <tbody>
+      <td><%= abook.title %></td>
+      <td><%= abook.body %></td>
+      <td><%= link_to 'Show', book_path(abook.id) %></td>
+      <td><%= link_to 'Edit', edit_book_path(abook.id) %></td>
+      <td><%= link_to 'Destroy', book_path(abook.id), method: :delete, "data-confirm" => "Are you sure?" %></td>
+    </tbody>
+    <% end %>
+  </table>
+</div>
+
+<!--ここに一覧が表示-->
+
+<h2 class="new-title">New book</h2>
+
+<div class = "error-box">
+<% if @book.errors.any? %>
+  <strong><%= @book.errors.count %> error prohibited this book from being saved:</strong>
+  <ul class="error-text">
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+  </ul>
+<% end %>
+</div>
+
+
+<%= form_with model: @book, url: '/books', method: :POST do |f| %>
+  <p>Title</p>
+  <%= f.text_field :title %>
+  <p>Body</p>
+  <%= f.text_area :body %>
+  <br></br>
+  <%= f.submit "Create Book" %>
+<% end %>
